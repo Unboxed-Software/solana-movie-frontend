@@ -11,8 +11,11 @@ export const Form: FC = () => {
     const handleSubmit = (event: any) => {
         event.preventDefault()
         const movie = new Movie(title, rating, message)
+        handleTransactionSubmit(movie)
+    }
+
+    const handleTransactionSubmit = async (movie: Movie) => {
         console.log(JSON.stringify(movie))
-        // submit transaction here
     }
 
     return (

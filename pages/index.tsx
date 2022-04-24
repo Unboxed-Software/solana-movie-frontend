@@ -10,7 +10,7 @@ import { Movie } from '../models/Movie'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-  const movies = Movie.mocks()
+
   return (
     <div className={styles.App}>
       <AppBar />
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             Existing Reviews
           </Heading>
           {
-            movies.map((movie, i) => {
+            Movie.mocks.map((movie, i) => {
               return (
                 <Card key={i} movie={movie} />
               )
