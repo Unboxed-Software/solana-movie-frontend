@@ -31,7 +31,7 @@ export const Card: FC<CardProps> = (props) => {
                         letterSpacing="wide"
                         color="gray.200"
                     >
-                        {props.movie.movie}
+                        {props.movie.title}
                     </Text>
                     <Spacer />
                     <Text
@@ -41,7 +41,7 @@ export const Card: FC<CardProps> = (props) => {
                     </Text>
                 </HStack>
                 <Text my={2} color="gray.400">
-                    {props.movie.message}
+                    {props.movie.description}
                 </Text>
             </Stack>
         </Box>

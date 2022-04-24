@@ -1,13 +1,13 @@
 
 export class Movie {
-    movie: string;
+    title: string;
     rating: number;
-    message: string;
+    description: string;
 
-    constructor(movie: string, rating: number, message: string) {
-        this.movie = movie;
+    constructor(title: string, rating: number, description: string) {
+        this.title = title;
         this.rating = rating;
-        this.message = message;
+        this.description = description;
     }
 
     static mocks: Movie[] = [
