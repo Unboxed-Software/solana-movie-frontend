@@ -1,14 +1,14 @@
 import * as borsh from '@project-serum/borsh'
 
 export class Movie {
-    movie: string;
+    title: string;
     rating: number;
-    message: string;
+    description: string;
 
-    constructor(movie: string, rating: number, message: string) {
-        this.movie = movie;
+    constructor(title: string, rating: number, description: string) {
+        this.title = title;
         this.rating = rating;
-        this.message = message;
+        this.description = description;
     }
 
     static mocks: Movie[] = [
@@ -20,9 +20,9 @@ export class Movie {
 
     borshSchema = borsh.struct([
         borsh.u8('variant'),
-        borsh.str('movie'),
+        borsh.str('title'),
         borsh.u8('rating'),
-        borsh.str('message'),
+        borsh.str('description'),
     ])
 
     serialize(): Buffer {

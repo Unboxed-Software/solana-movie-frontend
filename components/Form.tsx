@@ -10,14 +10,14 @@ const MOVIE_REVIEW_PROGRAM_ID = '4X5hVHsHeGHjLEB9hrUqQ57sEPcYPPfW54fndmQrsgCF'
 export const Form: FC = () => {
     const [title, setTitle] = useState('')
     const [rating, setRating] = useState(0)
-    const [message, setMessage] = useState('')
+    const [description, setDescription] = useState('')
 
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        const movie = new Movie(title, rating, message)
+        const movie = new Movie(title, rating, description)
         handleTransactionSubmit(movie)
     }
 
@@ -31,7 +31,7 @@ export const Form: FC = () => {
         const transaction = new web3.Transaction()
 
         const [pda] = await web3.PublicKey.findProgramAddress(
-            [publicKey.toBuffer()],
+            [publicKey.toBuffer(), new TextEncoder().encode(movie.title)],
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
         )
 
@@ -62,6 +62,7 @@ export const Form: FC = () => {
         try {
             let txid = await sendTransaction(transaction, connection)
             alert(`Transaction submitted: https://explorer.solana.com/tx/${txid}?cluster=devnet`)
+            console.log(`Transaction submitted: https://explorer.solana.com/tx/${txid}?cluster=devnet`)
         } catch (e) {
             console.log(JSON.stringify(e))
             alert(JSON.stringify(e))
@@ -95,7 +96,7 @@ export const Form: FC = () => {
                     <Textarea 
                         id='review' 
                         color='gray.400'
-                        onChange={event => setMessage(event.currentTarget.value)}
+                        onChange={event => setDescription(event.currentTarget.value)}
                     />
                 </FormControl>
                 <FormControl isRequired>
