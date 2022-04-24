@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import { Movie } from '../models/Movie';
-import { useState } from 'react';
+import { FC } from 'react'
+import { Movie } from '../models/Movie'
+import { useState } from 'react'
+import { Box, Button, FormControl, FormLabel, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea } from '@chakra-ui/react'
 import * as web3 from '@solana/web3.js'
-import { Box, Button, FormControl, FormLabel, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea } from '@chakra-ui/react';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 const MOVIE_REVIEW_PROGRAM_ID = '4X5hVHsHeGHjLEB9hrUqQ57sEPcYPPfW54fndmQrsgCF'
 
@@ -28,12 +28,13 @@ export const Form: FC = () => {
         }
 
         const buffer = movie.serialize()
-        console.log(buffer)
-        const pda = (await web3.PublicKey.findProgramAddress(
+        const transaction = new web3.Transaction()
+
+        const [pda] = await web3.PublicKey.findProgramAddress(
             [publicKey.toBuffer()],
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
-          ))[0]
-        const transaction = new web3.Transaction()
+        )
+
         const instruction = new web3.TransactionInstruction({
             keys: [
                 {
@@ -60,8 +61,9 @@ export const Form: FC = () => {
 
         try {
             let txid = await sendTransaction(transaction, connection)
-            console.log(txid)
+            alert(`Transaction submitted: https://explorer.solana.com/tx/${txid}?cluster=devnet`)
         } catch (e) {
+            console.log(JSON.stringify(e))
             alert(JSON.stringify(e))
         }
     }
