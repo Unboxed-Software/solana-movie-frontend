@@ -64,8 +64,6 @@ export const Form: FC = () => {
         } catch (e) {
             alert(JSON.stringify(e))
         }
-        
-        // submit transaction here
     }
 
     return (

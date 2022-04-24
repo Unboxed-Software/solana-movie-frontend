@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             Existing Reviews
           </Heading>
           {
-            Movie.mocks().map((movie, i) => {
+            Movie.mocks.map((movie, i) => {
               return (
                 <Card key={i} movie={movie} />
               )
