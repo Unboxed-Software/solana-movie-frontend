@@ -31,7 +31,7 @@ export const Form: FC = () => {
         const transaction = new web3.Transaction()
 
         const [pda] = await web3.PublicKey.findProgramAddress(
-            [publicKey.toBuffer(), new TextEncoder().encode(movie.title)],
+            [publicKey.toBuffer(), Buffer.from(movie.title)],// new TextEncoder().encode(movie.title)],
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
         )
 
