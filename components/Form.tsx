@@ -7,6 +7,8 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 const MOVIE_REVIEW_PROGRAM_ID = '4X5hVHsHeGHjLEB9hrUqQ57sEPcYPPfW54fndmQrsgCF'
 
+const MOVIE_REVIEW_PROGRAM_ID = '4X5hVHsHeGHjLEB9hrUqQ57sEPcYPPfW54fndmQrsgCF'
+
 export const Form: FC = () => {
     const [title, setTitle] = useState('')
     const [rating, setRating] = useState(0)
