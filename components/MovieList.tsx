@@ -2,22 +2,22 @@ import { Card } from './Card'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Movie } from '../models/Movie'
 import * as web3 from '@solana/web3.js'
-import { MovieCoordinator, MovieTitleFilter } from '../coordinators/MovieCoordinator'
+import { MovieCoordinator } from '../coordinators/MovieCoordinator'
 import { Button, Center, HStack, Input, Spacer } from '@chakra-ui/react'
 
 export const MovieList: FC = () => {
     const connection = new web3.Connection(web3.clusterApiUrl('devnet'))
     const [movies, setMovies] = useState<Movie[]>([])
     const [page, setPage] = useState(1)
-    const [search, setSearch] = useState<string|null>(null)
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
         MovieCoordinator.fetchPage(
             connection, 
             page, 
-            2,
-            search ? [new MovieTitleFilter(search)] : [],
-            search != null
+            5,
+            search,
+            search !== ''
         ).then(setMovies)
     }, [page, search])
     
@@ -44,7 +44,7 @@ export const MovieList: FC = () => {
                     }
                     <Spacer />
                     {
-                        MovieCoordinator.accountTotal > page * 2 &&
+                        MovieCoordinator.accounts.length > page * 5 &&
                         <Button onClick={() => setPage(page + 1)}>Next</Button>
                     }
                 </HStack>
