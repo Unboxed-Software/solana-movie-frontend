@@ -3,7 +3,7 @@ import { Movie } from '../models/Movie';
 import { useState } from 'react';
 import { Box, Button, FormControl, FormLabel, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea } from '@chakra-ui/react';
 
-const MOVIE_REVIEW_PROGRAM_ID = '4X5hVHsHeGHjLEB9hrUqQ57sEPcYPPfW54fndmQrsgCF'
+const MOVIE_REVIEW_PROGRAM_ID = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN'
 
 export const Form: FC = () => {
     const [title, setTitle] = useState('')
