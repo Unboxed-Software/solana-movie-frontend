@@ -17,8 +17,7 @@ import {
 } from "@chakra-ui/react"
 import * as web3 from "@solana/web3.js"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-
-const MOVIE_REVIEW_PROGRAM_ID = "BNU4WMofFddN8wTKGSm67wapnHfnBqx8BQDZswZwZTf3"
+import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants"
 
 export const Form: FC = () => {
     const [title, setTitle] = useState("")
@@ -31,7 +30,12 @@ export const Form: FC = () => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        const movie = new Movie(title, rating, description)
+        if (!publicKey) {
+            alert("Please connect your wallet!")
+            return
+        }
+
+        const movie = new Movie(title, rating, description, publicKey)
         handleTransactionSubmit(movie)
     }
 

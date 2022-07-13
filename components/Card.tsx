@@ -1,9 +1,10 @@
-import { Box, HStack, Spacer, Stack, Text } from '@chakra-ui/react';
-import { FC } from 'react';
-import { Movie } from '../models/Movie';
+import { Box, HStack, Spacer, Stack, Text } from "@chakra-ui/react"
+import { FC } from "react"
+import { Movie } from "../models/Movie"
 
 export interface CardProps {
-    movie: Movie;
+    movie: Movie
+    onClick: () => void
 }
 
 export const Card: FC<CardProps> = (props) => {
@@ -14,16 +15,20 @@ export const Card: FC<CardProps> = (props) => {
             maxWidth="32rem"
             borderWidth={1}
             margin={2}
+            _hover={{
+                background: "gray.900",
+            }}
+            onClick={props.onClick}
         >
             <Stack
-                w='full'
+                w="full"
                 align={{ base: "center", md: "stretch" }}
                 textAlign={{ base: "center", md: "left" }}
                 mt={{ base: 4, md: 0 }}
                 ml={{ md: 6 }}
                 mr={{ md: 6 }}
             >
-                <HStack >
+                <HStack>
                     <Text
                         fontWeight="bold"
                         textTransform="uppercase"
@@ -34,11 +39,7 @@ export const Card: FC<CardProps> = (props) => {
                         {props.movie.title}
                     </Text>
                     <Spacer />
-                    <Text
-                        color="gray.200"
-                    >
-                        {props.movie.rating}/5
-                    </Text>
+                    <Text color="gray.200">{props.movie.rating}/5</Text>
                 </HStack>
                 <Text my={2} color="gray.400">
                     {props.movie.description}
@@ -47,4 +48,3 @@ export const Card: FC<CardProps> = (props) => {
         </Box>
     )
 }
-
