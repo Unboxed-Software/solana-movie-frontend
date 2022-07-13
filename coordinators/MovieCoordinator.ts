@@ -10,15 +10,28 @@ export class MovieCoordinator {
         const accounts = await connection.getProgramAccounts(
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID),
             {
-                dataSlice: { offset: 2, length: 18 },
+                dataSlice: { offset: 40, length: 18 },
                 filters:
                     search === ""
-                        ? []
+                        ? [
+                              {
+                                  memcmp: {
+                                      offset: 0,
+                                      bytes: bs58.encode(Buffer.from("review")),
+                                  },
+                              },
+                          ]
                         : [
                               {
                                   memcmp: {
-                                      offset: 6,
+                                      offset: 44,
                                       bytes: bs58.encode(Buffer.from(search)),
+                                  },
+                              },
+                              {
+                                  memcmp: {
+                                      offset: 0,
+                                      bytes: bs58.encode(Buffer.from("review")),
                                   },
                               },
                           ],
@@ -43,7 +56,6 @@ export class MovieCoordinator {
         search: string,
         reload: boolean = false
     ): Promise<Movie[]> {
-        return Movie.mocks
         if (this.accounts.length === 0 || reload) {
             await this.prefetchAccounts(connection, search)
         }
