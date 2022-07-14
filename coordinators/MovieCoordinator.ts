@@ -10,7 +10,7 @@ export class MovieCoordinator {
         const accounts = await connection.getProgramAccounts(
           new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID),
           {
-            dataSlice: { offset: 0, length: 4 + 6 + 1 + 32 + 1 + 4 + 20 },
+            dataSlice: { offset: 0, length: 48 + 20 },
             filters:
               search === ""
                 ? [
@@ -33,16 +33,12 @@ export class MovieCoordinator {
         );
 
         accounts.sort((a, b) => {
-            const lengthA = a.account.data.readUInt32LE(41)
-            const lengthB = b.account.data.readUInt32LE(41)
-            const dataA = a.account.data.slice(4, 4 + lengthA)
-            console.log("a", dataA)
-            const dataB = b.account.data.slice(4, 4 + lengthB)
-            console.log("b", dataB)
+            const lengthA = a.account.data.readUInt32LE(0)
+            const lengthB = b.account.data.readUInt32LE(0)
+            const dataA = a.account.data.slice(48, 48 + lengthA);
+            const dataB = b.account.data.slice(48, 48 + lengthB);
             return dataA.compare(dataB)
         })
-
-        console.log("accounts", accounts)
 
         this.accounts = accounts.map((account) => account.pubkey)
     }

@@ -59,6 +59,7 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
                     comment,
                     CommentCoordinator.commentCount
                 )
+                console.log("count", CommentCoordinator.commentCount)
                 handleTransactionSubmit(c)
             })
     }
@@ -72,6 +73,7 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
         const transaction = new web3.Transaction()
 
         const pda = await comment.publicKey()
+        const counter = await CommentCoordinator.commentCounterPubkey(comment.review)
 
         const instruction = new web3.TransactionInstruction({
             keys: [
@@ -86,7 +88,7 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
                     isWritable: false,
                 },
                 {
-                    pubkey: new web3.PublicKey(""),
+                    pubkey: counter,
                     isSigner: false,
                     isWritable: true,
                 },
