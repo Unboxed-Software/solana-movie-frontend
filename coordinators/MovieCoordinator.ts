@@ -8,43 +8,41 @@ export class MovieCoordinator {
 
     static async prefetchAccounts(connection: web3.Connection, search: string) {
         const accounts = await connection.getProgramAccounts(
-            new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID),
-            {
-                dataSlice: { offset: 40, length: 18 },
-                filters:
-                    search === ""
-                        ? [
-                              {
-                                  memcmp: {
-                                      offset: 0,
-                                      bytes: bs58.encode(Buffer.from("review")),
-                                  },
-                              },
-                          ]
-                        : [
-                              {
-                                  memcmp: {
-                                      offset: 44,
-                                      bytes: bs58.encode(Buffer.from(search)),
-                                  },
-                              },
-                              {
-                                  memcmp: {
-                                      offset: 0,
-                                      bytes: bs58.encode(Buffer.from("review")),
-                                  },
-                              },
-                          ],
-            }
-        )
+          new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID),
+          {
+            dataSlice: { offset: 0, length: 4 + 6 + 1 + 32 + 1 + 4 + 20 },
+            filters:
+              search === ""
+                ? [
+                    {
+                      memcmp: {
+                        offset: 4,
+                        bytes: bs58.encode(Buffer.from("review")),
+                      },
+                    },
+                  ]
+                : [
+                    {
+                      memcmp: {
+                        offset: 4 + 6 + 1 + 32 + 1 + 4,
+                        bytes: bs58.encode(Buffer.from(search)),
+                      },
+                    },
+                  ],
+          }
+        );
 
         accounts.sort((a, b) => {
-            const lengthA = a.account.data.readUInt32LE(0)
-            const lengthB = b.account.data.readUInt32LE(0)
+            const lengthA = a.account.data.readUInt32LE(41)
+            const lengthB = b.account.data.readUInt32LE(41)
             const dataA = a.account.data.slice(4, 4 + lengthA)
+            console.log("a", dataA)
             const dataB = b.account.data.slice(4, 4 + lengthB)
+            console.log("b", dataB)
             return dataA.compare(dataB)
         })
+
+        console.log("accounts", accounts)
 
         this.accounts = accounts.map((account) => account.pubkey)
     }

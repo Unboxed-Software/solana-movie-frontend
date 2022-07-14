@@ -3,7 +3,7 @@ import * as web3 from "@solana/web3.js"
 import { Comment } from "../models/Comment"
 import * as borsh from "@project-serum/borsh"
 
-const MOVIE_REVIEW_PROGRAM_ID = "BNU4WMofFddN8wTKGSm67wapnHfnBqx8BQDZswZwZTf3"
+const MOVIE_REVIEW_PROGRAM_ID = "EoQhVerhntCxQjsQZ6mmRciJRNAsJqWBTc2EvZhZar3n";
 
 export class CommentCoordinator {
     static commentCount: number = 0

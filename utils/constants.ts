@@ -1,2 +1,1 @@
-export const MOVIE_REVIEW_PROGRAM_ID =
-    "4S4tD3eMeeCmXfR1TGjV45LuXKtFMZxwgcwAMADpvnQi"
+export const MOVIE_REVIEW_PROGRAM_ID = "EoQhVerhntCxQjsQZ6mmRciJRNAsJqWBTc2EvZhZar3n";
