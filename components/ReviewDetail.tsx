@@ -68,7 +68,9 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
         const transaction = new web3.Transaction()
 
         const pda = await comment.publicKey()
-        const counter = await CommentCoordinator.commentCounterPubkey(comment.review)
+        const counter = await CommentCoordinator.commentCounterPubkey(
+            comment.review
+        )
 
         const instruction = new web3.TransactionInstruction({
             keys: [
@@ -119,40 +121,42 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
     }
 
     return (
-      <div>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader
-              textTransform="uppercase"
-              textAlign={{ base: "center", md: "center" }}
-            >
-              {movie.title}
-            </ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Stack textAlign={{ base: "center", md: "center" }}>
-                <p>{movie.description}</p>
-                <form onSubmit={handleSubmit}>
-                  <FormControl isRequired>
-                    <Input
-                      id="title"
-                      color="gray.400"
-                      onChange={(event) =>
-                        setComment(event.currentTarget.value)
-                      }
-                      placeholder="Submit a comment..."
-                    />
-                  </FormControl>
-                  <Button width="full" mt={4} type="submit">
-                    Send
-                  </Button>
-                </form>
-                <CommentList movie={movie} />
-              </Stack>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      </div>
-    );
+        <div>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader
+                        textTransform="uppercase"
+                        textAlign={{ base: "center", md: "center" }}
+                    >
+                        {movie.title}
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Stack textAlign={{ base: "center", md: "center" }}>
+                            <p>{movie.description}</p>
+                            <form onSubmit={handleSubmit}>
+                                <FormControl isRequired>
+                                    <Input
+                                        id="title"
+                                        color="black"
+                                        onChange={(event) =>
+                                            setComment(
+                                                event.currentTarget.value
+                                            )
+                                        }
+                                        placeholder="Submit a comment..."
+                                    />
+                                </FormControl>
+                                <Button width="full" mt={4} type="submit">
+                                    Send
+                                </Button>
+                            </form>
+                            <CommentList movie={movie} />
+                        </Stack>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+        </div>
+    )
 }
