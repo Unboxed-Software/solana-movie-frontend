@@ -47,8 +47,9 @@ export class CommentCoordinator {
   ): Promise<Comment[]> {
     await this.syncCommentCount(connection, review);
 
-      const start = (this.commentCount) - perPage * (page - 1);
-      const end = Math.max(start - perPage, 0);
+    console.log("count", this.commentCount)
+    const start = (this.commentCount) - perPage * (page - 1);
+    const end = Math.max(start - perPage, 0);
 
     let paginatedPublicKeys: web3.PublicKey[] = [];
 

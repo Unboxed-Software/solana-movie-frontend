@@ -33,7 +33,7 @@ export const CommentList: FC<CommentListProps> = ({
                         connection,
                         review,
                         page,
-                        2,
+                        3,
                     );
                     setComments(comments);
                 })
@@ -66,7 +66,7 @@ export const CommentList: FC<CommentListProps> = ({
                 <Button onClick={() => setPage(page - 1)}>Previous</Button>
               )}
               <Spacer />
-              {CommentCoordinator.commentCount > page * 5 && (
+              {CommentCoordinator.commentCount > page * 3 && (
                 <Button onClick={() => setPage(page + 1)}>Next</Button>
               )}
             </HStack>
