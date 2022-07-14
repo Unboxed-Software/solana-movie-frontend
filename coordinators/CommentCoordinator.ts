@@ -3,6 +3,7 @@ import * as web3 from "@solana/web3.js"
 import { Comment } from "../models/Comment"
 import * as borsh from "@project-serum/borsh"
 import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants";
+import BN from "bn.js";
 
 export class CommentCoordinator {
   static commentCount: number = 0;
@@ -51,9 +52,9 @@ export class CommentCoordinator {
 
     let paginatedPublicKeys: web3.PublicKey[] = [];
 
-    for (let i = start; i >= end; i--) {
+    for (let i = start; i > end; i--) {
       const [pda] = await web3.PublicKey.findProgramAddress(
-        [review.toBuffer(), Buffer.from([ i - 1 ])],
+        [review.toBuffer(), new BN([i - 1]).toArrayLike(Buffer, "be", 8)],
         new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
       );
         paginatedPublicKeys.push(pda);

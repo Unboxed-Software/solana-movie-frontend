@@ -33,7 +33,7 @@ export const CommentList: FC<CommentListProps> = ({
                         connection,
                         review,
                         page,
-                        5,
+                        2,
                     );
                     setComments(comments);
                 })

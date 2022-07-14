@@ -1,6 +1,7 @@
 import * as borsh from "@project-serum/borsh"
 import { PublicKey } from "@solana/web3.js"
 import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants"
+import BN from "bn.js";
 
 export class Comment {
   review: PublicKey;
@@ -25,7 +26,7 @@ export class Comment {
       await PublicKey.findProgramAddress(
         [
           this.review.toBuffer(),
-          Buffer.from([this.count]),
+          new BN(this.count).toArrayLike(Buffer, "be", 8),
         ],
         new PublicKey(MOVIE_REVIEW_PROGRAM_ID)
       )
