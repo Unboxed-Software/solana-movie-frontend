@@ -3,7 +3,7 @@ import { FC, useEffect, useMemo, useState } from "react"
 import { Movie } from "../models/Movie"
 import * as web3 from "@solana/web3.js"
 import { MovieCoordinator } from "../coordinators/MovieCoordinator"
-import { Button, Center, HStack, Input, Spacer } from "@chakra-ui/react"
+import { Button, Center, HStack, Input, Spacer, Heading } from "@chakra-ui/react"
 import { useDisclosure } from "@chakra-ui/react"
 import { ReviewDetail } from "./ReviewDetail"
 
@@ -31,45 +31,46 @@ export const MovieList: FC = () => {
     }
 
     return (
-        <div>
-            <Center>
-                <Input
-                    id="search"
-                    color="gray.400"
-                    onChange={(event) => setSearch(event.currentTarget.value)}
-                    placeholder="Search"
-                    w="97%"
-                    mt={2}
-                    mb={2}
-                />
-            </Center>
-            <ReviewDetail
-                isOpen={isOpen}
-                onClose={onClose}
-                movie={selectedMovie ?? movies[0]}
-            />
-            {movies.map((movie, i) => (
-                <Card
-                    key={i}
-                    movie={movie}
-                    onClick={() => {
-                        handleReviewSelected(movie)
-                    }}
-                />
-            ))}
-            <Center>
-                <HStack w="full" mt={2} mb={8} ml={4} mr={4}>
-                    {page > 1 && (
-                        <Button onClick={() => setPage(page - 1)}>
-                            Previous
-                        </Button>
-                    )}
-                    <Spacer />
-                    {MovieCoordinator.accounts.length > page * 5 && (
-                        <Button onClick={() => setPage(page + 1)}>Next</Button>
-                    )}
-                </HStack>
-            </Center>
-        </div>
-    )
+      <div>
+        <Center>
+          <Input
+            id="search"
+            color="gray.400"
+            onChange={(event) => setSearch(event.currentTarget.value)}
+            placeholder="Search"
+            w="97%"
+            mt={2}
+            mb={2}
+          />
+        </Center>
+        <Heading as="h1" size="l" color="white" ml={4} mt={8}>
+          Select Review To Comment
+        </Heading>
+        <ReviewDetail
+          isOpen={isOpen}
+          onClose={onClose}
+          movie={selectedMovie ?? movies[0]}
+        />
+        {movies.map((movie, i) => (
+          <Card
+            key={i}
+            movie={movie}
+            onClick={() => {
+              handleReviewSelected(movie);
+            }}
+          />
+        ))}
+        <Center>
+          <HStack w="full" mt={2} mb={8} ml={4} mr={4}>
+            {page > 1 && (
+              <Button onClick={() => setPage(page - 1)}>Previous</Button>
+            )}
+            <Spacer />
+            {MovieCoordinator.accounts.length > page * 5 && (
+              <Button onClick={() => setPage(page + 1)}>Next</Button>
+            )}
+          </HStack>
+        </Center>
+      </div>
+    );
 }

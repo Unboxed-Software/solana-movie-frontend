@@ -1,16 +1,12 @@
 import {
     Button,
-    Center,
-    HStack,
     Input,
-    Spacer,
     Modal,
     ModalOverlay,
     ModalContent,
     ModalHeader,
     ModalCloseButton,
     ModalBody,
-    ModalFooter,
     Stack,
     FormControl,
 } from "@chakra-ui/react"
@@ -59,7 +55,6 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
                     comment,
                     CommentCoordinator.commentCount
                 )
-                console.log("count", CommentCoordinator.commentCount)
                 handleTransactionSubmit(c)
             })
     }
@@ -124,37 +119,40 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
     }
 
     return (
-        <div>
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>{movie.title}</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Stack>
-                            <p>{movie.description}</p>
-                            <form onSubmit={handleSubmit}>
-                                <FormControl isRequired>
-                                    <Input
-                                        id="title"
-                                        color="gray.400"
-                                        onChange={(event) =>
-                                            setComment(
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        placeholder="Submit a comment..."
-                                    />
-                                </FormControl>
-                                <Button width="full" mt={4} type="submit">
-                                    Send
-                                </Button>
-                            </form>
-                            <CommentList movie={movie} />
-                        </Stack>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
-        </div>
-    )
+      <div>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader
+              textTransform="uppercase"
+              textAlign={{ base: "center", md: "center" }}
+            >
+              {movie.title}
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Stack textAlign={{ base: "center", md: "center" }}>
+                <p>{movie.description}</p>
+                <form onSubmit={handleSubmit}>
+                  <FormControl isRequired>
+                    <Input
+                      id="title"
+                      color="gray.400"
+                      onChange={(event) =>
+                        setComment(event.currentTarget.value)
+                      }
+                      placeholder="Submit a comment..."
+                    />
+                  </FormControl>
+                  <Button width="full" mt={4} type="submit">
+                    Send
+                  </Button>
+                </form>
+                <CommentList movie={movie} />
+              </Stack>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </div>
+    );
 }
