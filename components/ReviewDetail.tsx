@@ -1,16 +1,12 @@
 import {
     Button,
-    Center,
-    HStack,
     Input,
-    Spacer,
     Modal,
     ModalOverlay,
     ModalContent,
     ModalHeader,
     ModalCloseButton,
     ModalBody,
-    ModalFooter,
     Stack,
     FormControl,
 } from "@chakra-ui/react"
@@ -72,6 +68,9 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
         const transaction = new web3.Transaction()
 
         const pda = await comment.publicKey()
+        const counter = await CommentCoordinator.commentCounterPubkey(
+            comment.review
+        )
 
         const instruction = new web3.TransactionInstruction({
             keys: [
@@ -86,7 +85,7 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
                     isWritable: false,
                 },
                 {
-                    pubkey: new web3.PublicKey(""),
+                    pubkey: counter,
                     isSigner: false,
                     isWritable: true,
                 },
@@ -126,16 +125,21 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>{movie.title}</ModalHeader>
+                    <ModalHeader
+                        textTransform="uppercase"
+                        textAlign={{ base: "center", md: "center" }}
+                    >
+                        {movie.title}
+                    </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Stack>
+                        <Stack textAlign={{ base: "center", md: "center" }}>
                             <p>{movie.description}</p>
                             <form onSubmit={handleSubmit}>
                                 <FormControl isRequired>
                                     <Input
                                         id="title"
-                                        color="gray.400"
+                                        color="black"
                                         onChange={(event) =>
                                             setComment(
                                                 event.currentTarget.value

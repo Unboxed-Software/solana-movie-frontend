@@ -53,6 +53,11 @@ export const Form: FC = () => {
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
         )
 
+        const [pdaCounter] = await web3.PublicKey.findProgramAddress(
+            [pda.toBuffer(), Buffer.from("comment")], // new TextEncoder().encode(movie.title)],
+            new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
+        )
+
         const instruction = new web3.TransactionInstruction({
             keys: [
                 {
@@ -62,6 +67,11 @@ export const Form: FC = () => {
                 },
                 {
                     pubkey: pda,
+                    isSigner: false,
+                    isWritable: true,
+                },
+                {
+                    pubkey: pdaCounter,
                     isSigner: false,
                     isWritable: true,
                 },

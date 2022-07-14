@@ -1,6 +1,7 @@
 import * as borsh from "@project-serum/borsh"
 import { PublicKey } from "@solana/web3.js"
 import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants"
+import BN from "bn.js"
 
 export class Comment {
     review: PublicKey
@@ -25,7 +26,7 @@ export class Comment {
             await PublicKey.findProgramAddress(
                 [
                     this.review.toBuffer(),
-                    Buffer.from(new Int32Array([this.count]).buffer),
+                    new BN(this.count).toArrayLike(Buffer, "be", 8),
                 ],
                 new PublicKey(MOVIE_REVIEW_PROGRAM_ID)
             )
@@ -35,15 +36,15 @@ export class Comment {
     private static commentLayout = borsh.struct([
         borsh.str("discriminator"),
         borsh.u8("isInitialized"),
-        borsh.array(borsh.u8(), 32, "review"),
-        borsh.array(borsh.u8(), 32, "commenter"),
+        borsh.publicKey("review"),
+        borsh.publicKey("commenter"),
         borsh.str("comment"),
         borsh.u64("count"),
     ])
 
     private instructionLayout = borsh.struct([
         borsh.u8("variant"),
-        borsh.array(borsh.u8(), 32, "review"),
+        borsh.publicKey("review"),
         borsh.str("comment"),
     ])
 

@@ -3,7 +3,14 @@ import { FC, useEffect, useMemo, useState } from "react"
 import { Movie } from "../models/Movie"
 import * as web3 from "@solana/web3.js"
 import { MovieCoordinator } from "../coordinators/MovieCoordinator"
-import { Button, Center, HStack, Input, Spacer } from "@chakra-ui/react"
+import {
+    Button,
+    Center,
+    HStack,
+    Input,
+    Spacer,
+    Heading,
+} from "@chakra-ui/react"
 import { useDisclosure } from "@chakra-ui/react"
 import { ReviewDetail } from "./ReviewDetail"
 
@@ -43,6 +50,9 @@ export const MovieList: FC = () => {
                     mb={2}
                 />
             </Center>
+            <Heading as="h1" size="l" color="white" ml={4} mt={8}>
+                Select Review To Comment
+            </Heading>
             <ReviewDetail
                 isOpen={isOpen}
                 onClose={onClose}

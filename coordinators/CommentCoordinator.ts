@@ -2,8 +2,8 @@ import bs58 from "bs58"
 import * as web3 from "@solana/web3.js"
 import { Comment } from "../models/Comment"
 import * as borsh from "@project-serum/borsh"
-
-const MOVIE_REVIEW_PROGRAM_ID = "BNU4WMofFddN8wTKGSm67wapnHfnBqx8BQDZswZwZTf3"
+import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants"
+import BN from "bn.js"
 
 export class CommentCoordinator {
     static commentCount: number = 0
@@ -33,9 +33,7 @@ export class CommentCoordinator {
 
         try {
             const account = await connection.getAccountInfo(counterPda)
-            this.commentCount = this.counterLayout.deserialize(
-                account?.data
-            ).count
+            this.commentCount = this.counterLayout.decode(account?.data).count
         } catch (error) {
             console.log(error)
         }
@@ -45,11 +43,11 @@ export class CommentCoordinator {
         connection: web3.Connection,
         review: web3.PublicKey,
         page: number,
-        perPage: number,
-        reload: boolean = false
+        perPage: number
     ): Promise<Comment[]> {
         await this.syncCommentCount(connection, review)
 
+        console.log("count", this.commentCount)
         const start = this.commentCount - perPage * (page - 1)
         const end = Math.max(start - perPage, 0)
 
@@ -57,7 +55,10 @@ export class CommentCoordinator {
 
         for (let i = start; i > end; i--) {
             const [pda] = await web3.PublicKey.findProgramAddress(
-                [review.toBuffer(), Buffer.from(new Int32Array([i]).buffer)],
+                [
+                    review.toBuffer(),
+                    new BN([i - 1]).toArrayLike(Buffer, "be", 8),
+                ],
                 new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
             )
             paginatedPublicKeys.push(pda)
@@ -67,7 +68,7 @@ export class CommentCoordinator {
             paginatedPublicKeys
         )
 
-        const movies = accounts.reduce((accum: Comment[], account) => {
+        const comments = accounts.reduce((accum: Comment[], account) => {
             const comment = Comment.deserialize(account?.data)
             if (!comment) {
                 return accum
@@ -76,6 +77,6 @@ export class CommentCoordinator {
             return [...accum, comment]
         }, [])
 
-        return movies
+        return comments
     }
 }

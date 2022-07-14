@@ -1,2 +1,2 @@
 export const MOVIE_REVIEW_PROGRAM_ID =
-    "4S4tD3eMeeCmXfR1TGjV45LuXKtFMZxwgcwAMADpvnQi"
+    "FxSpfcfKKVbMY3SRMqGcfAr1kC4U9VXaHBCU9NoWPcbY"
