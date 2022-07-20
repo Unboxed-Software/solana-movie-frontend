@@ -1,7 +1,6 @@
 import { Card } from "./Card"
 import { FC, useEffect, useMemo, useState } from "react"
 import { Movie } from "../models/Movie"
-import * as web3 from "@solana/web3.js"
 import { MovieCoordinator } from "../coordinators/MovieCoordinator"
 import {
     Button,
@@ -13,9 +12,10 @@ import {
 } from "@chakra-ui/react"
 import { useDisclosure } from "@chakra-ui/react"
 import { ReviewDetail } from "./ReviewDetail"
+import { useConnection } from "@solana/wallet-adapter-react"
 
 export const MovieList: FC = () => {
-    const connection = new web3.Connection(web3.clusterApiUrl("devnet"))
+    const { connection } = useConnection()
     const [movies, setMovies] = useState<Movie[]>([])
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState("")
