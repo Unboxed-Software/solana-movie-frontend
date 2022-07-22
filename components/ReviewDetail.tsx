@@ -15,6 +15,11 @@ import { Movie } from "../models/Movie"
 import { CommentList } from "./CommentList"
 import { Comment } from "../models/Comment"
 import * as web3 from "@solana/web3.js"
+import {
+    getAssociatedTokenAddress,
+    createAssociatedTokenAccountInstruction,
+    TOKEN_PROGRAM_ID,
+} from "@solana/spl-token"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants"
 import { CommentCoordinator } from "../coordinators/CommentCoordinator"
@@ -72,6 +77,30 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
             comment.review
         )
 
+        const [tokenMint] = await web3.PublicKey.findProgramAddress(
+            [Buffer.from("token_mint")],
+            new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
+        )
+
+        const [mintAuth] = await web3.PublicKey.findProgramAddress(
+            [Buffer.from("token_auth")],
+            new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
+        )
+
+        const userAta = await getAssociatedTokenAddress(tokenMint, publicKey)
+        const ataAccount = await connection.getAccountInfo(userAta)
+
+        if (!ataAccount) {
+            const ataInstruction = createAssociatedTokenAccountInstruction(
+                publicKey,
+                userAta,
+                publicKey,
+                tokenMint
+            )
+
+            transaction.add(ataInstruction)
+        }
+
         const instruction = new web3.TransactionInstruction({
             keys: [
                 {
@@ -95,7 +124,27 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
                     isWritable: true,
                 },
                 {
+                    pubkey: tokenMint,
+                    isSigner: false,
+                    isWritable: true,
+                },
+                {
+                    pubkey: mintAuth,
+                    isSigner: false,
+                    isWritable: false,
+                },
+                {
+                    pubkey: userAta,
+                    isSigner: false,
+                    isWritable: true,
+                },
+                {
                     pubkey: web3.SystemProgram.programId,
+                    isSigner: false,
+                    isWritable: false,
+                },
+                {
+                    pubkey: TOKEN_PROGRAM_ID,
                     isSigner: false,
                     isWritable: false,
                 },
