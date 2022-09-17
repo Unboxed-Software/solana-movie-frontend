@@ -12,6 +12,7 @@ import { CommentCoordinator } from "../coordinators/CommentCoordinator"
 import { Movie } from "../models/Movie"
 import { Comment } from "../models/Comment"
 import * as web3 from "@solana/web3.js"
+import { useConnection } from "@solana/wallet-adapter-react"
 
 interface CommentListProps {
     movie: Movie
@@ -20,7 +21,7 @@ interface CommentListProps {
 export const CommentList: FC<CommentListProps> = ({
     movie,
 }: CommentListProps) => {
-    const connection = new web3.Connection(web3.clusterApiUrl("devnet"))
+    const { connection } = useConnection()
     const [page, setPage] = useState(1)
     const [comments, setComments] = useState<Comment[]>([])
 

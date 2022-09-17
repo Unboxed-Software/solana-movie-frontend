@@ -44,7 +44,6 @@ export class Comment {
 
     private instructionLayout = borsh.struct([
         borsh.u8("variant"),
-        borsh.publicKey("review"),
         borsh.str("comment"),
     ])
 
