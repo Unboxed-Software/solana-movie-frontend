@@ -1,7 +1,7 @@
-import { FC, ReactNode } from "react"
+import { FC, ReactNode, useMemo } from "react"
 import {
-    ConnectionProvider,
-    WalletProvider,
+  ConnectionProvider,
+  WalletProvider,
 } from "@solana/wallet-adapter-react"
 import * as web3 from "@solana/web3.js"
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui"
@@ -10,18 +10,20 @@ require("@solana/wallet-adapter-react-ui/styles.css")
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const endpoint = web3.clusterApiUrl("devnet")
-    const wallets = [
-        new walletAdapterWallets.PhantomWalletAdapter(),
-        new walletAdapterWallets.SolflareWalletAdapter(),
+  const wallets = useMemo(() => {
+    return [
+      new walletAdapterWallets.PhantomWalletAdapter(),
+      new walletAdapterWallets.SolflareWalletAdapter(),
     ]
+  }, [])
 
-    return (
-        <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets}>
-                <WalletModalProvider>{children}</WalletModalProvider>
-            </WalletProvider>
-        </ConnectionProvider>
-    )
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect={true}>
+        <WalletModalProvider>{children}</WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
+  )
 }
 
 export default WalletContextProvider
