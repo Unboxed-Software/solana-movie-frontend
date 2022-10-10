@@ -44,7 +44,7 @@ export class Movie {
         }
 
         try {
-            const { title, rating, description } = this.borshAccountSchema.decode(buffer)
+            const { title, rating, description } = this.borshAccountSchema.decode(buffer.slice(1))
             return new Movie(title, rating, description)
         } catch(e) {
             console.log('Deserialization error:', e)
