@@ -1,4 +1,4 @@
-
+import * as borsh from '@coral-xyz/borsh'
 export class Movie {
     title: string;
     rating: number;
@@ -16,4 +16,16 @@ export class Movie {
         new Movie('The Godfather: Part II', 4, `The Godfather: Part II is a continuation of the saga of the late Italian-American crime boss, Francis Ford Coppola, and his son, Vito Corleone. The story follows the continuing saga of the Corleone family as they attempt to successfully start a new life for themselves after years of crime and corruption.`),
         new Movie('The Dark Knight', 5, `The Dark Knight is a 2008 superhero film directed, produced, and co-written by Christopher Nolan. Batman, in his darkest hour, faces his greatest challenge yet: he must become the symbol of the opposite of the Batmanian order, the League of Shadows.`),
     ]
+    borshInstructionSchema = borsh.struct([
+        borsh.u8('varient'),
+        borsh.str('title'),
+        borsh.u8('rating'),
+        borsh.str('description')
+    ]);
+    serialize(): Buffer {
+        const buffer = Buffer.alloc(1000)
+        this.borshInstructionSchema.encode({...this,varient:0}, buffer)
+        return buffer.slice(0, this.borshInstructionSchema.getSpan(buffer))
+    }
+
 }
