@@ -29,8 +29,9 @@ export const Form: FC = () => {
         const buffer = movie.serialize()
         const transaction = new web3.Transaction();
 
-        const pda = new web3.PublicKey('Dc52iQbJz7aTFiNoXmPikn7SHEd8SXiH3ii7qDvqzbfo')
-        console.log(pda);
+        const [pda] = web3.PublicKey.findProgramAddressSync([publicKey.toBuffer(), new TextEncoder().encode(movie.title)],
+        new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID))
+        console.log(pda)
         const instruction = new web3.TransactionInstruction({
             keys: [
               {
