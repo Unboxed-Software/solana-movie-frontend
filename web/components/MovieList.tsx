@@ -1,3 +1,5 @@
+"use client";
+
 import { Card } from "./Card"
 import { FC, useEffect, useMemo, useState } from "react"
 import { Movie } from "../models/Movie"
@@ -38,7 +40,7 @@ export const MovieList: FC = () => {
     }
 
     return (
-        <div>
+        <div className="box">
             <Center>
                 <Input
                     id="search"
@@ -47,7 +49,7 @@ export const MovieList: FC = () => {
                     placeholder="Search"
                     w="97%"
                     mt={2}
-                    mb={2}
+                    mb={20}
                 />
             </Center>
             <Heading as="h1" size="l" color="white" ml={4} mt={8}>
