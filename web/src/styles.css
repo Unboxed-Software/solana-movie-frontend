@@ -1,0 +1,65 @@
+html,
+body,
+#root {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+:root {
+  color-scheme: light dark;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  text-align: left;
+  background-color: #282c34;
+}
+
+
+button{
+  padding: 8px;
+  border-radius: 20px;
+  border: 0px;
+  margin: 5px 0 5px;
+  background: rgb(105, 54, 233);
+}
+
+textarea {
+  min-width: 50vw;
+  min-height: 20vh;
+  margin: 5px 0 15px;
+}
+
+input {
+  min-width: 50vw;
+  min-height: 30px;
+  margin: 5px 0 15px;
+}
+
+.ReviewDetail {
+  background: #282c34;
+  border-radius: 15px;
+  align-self: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+
+.ReviewDetailOverlay {
+  background: #000000;
+  opacity: 0.6 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100vw;
+  min-height: 100vh !important;
+  justify-content: center !important;
+  align-items: center !important; 
+}
