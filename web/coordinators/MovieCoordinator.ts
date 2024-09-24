@@ -33,11 +33,14 @@ export class MovieCoordinator {
             }
         )
 
-        accounts.sort((a, b) => {
+        const mutableAccounts = accounts.map((accountInfo) => accountInfo)
+
+
+        mutableAccounts.sort((a,b):number => {
             const lengthA = a.account.data.readUInt32LE(0)
             const lengthB = b.account.data.readUInt32LE(0)
-            const dataA = a.account.data.slice(offset, offset + lengthA)
-            const dataB = b.account.data.slice(offset, offset + lengthB)
+            const dataA = a.account.data.subarray(offset, offset + lengthA)
+            const dataB = b.account.data.subarray(offset, offset + lengthB)
             return dataA.compare(dataB)
         })
 

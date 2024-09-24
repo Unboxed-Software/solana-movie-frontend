@@ -1,3 +1,5 @@
+"use client"
+
 import { FC } from "react"
 import { Movie } from "../models/Movie"
 import { useState } from "react"
@@ -48,12 +50,12 @@ export const Form: FC = () => {
         const buffer = movie.serialize(toggle ? 0 : 1)
         const transaction = new web3.Transaction()
 
-        const [pda] = await web3.PublicKey.findProgramAddress(
+        const [pda] = web3.PublicKey.findProgramAddressSync(
             [publicKey.toBuffer(), Buffer.from(movie.title)], // new TextEncoder().encode(movie.title)],
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
         )
 
-        const [pdaCounter] = await web3.PublicKey.findProgramAddress(
+        const [pdaCounter] = web3.PublicKey.findProgramAddressSync(
             [pda.toBuffer(), Buffer.from("comment")], // new TextEncoder().encode(movie.title)],
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
         )
@@ -102,7 +104,7 @@ export const Form: FC = () => {
     }
 
     return (
-        <Box
+        <Box className="box"
             p={4}
             display={{ md: "flex" }}
             maxWidth="32rem"
@@ -133,7 +135,7 @@ export const Form: FC = () => {
                 </FormControl>
                 <FormControl isRequired>
                     <FormLabel color="gray.200">Rating</FormLabel>
-                    <NumberInput
+                    <NumberInput className="rating"
                         max={5}
                         min={1}
                         onChange={(valueString) =>

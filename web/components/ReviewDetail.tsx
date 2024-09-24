@@ -122,10 +122,10 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
   }
 
   return (
-    <div>
+    <div className="reviewDetail">
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay className="overlay" />
+        <ModalContent className="reviewDetail">
           <ModalHeader
             textTransform="uppercase"
             textAlign={{ base: "center", md: "center" }}

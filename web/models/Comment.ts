@@ -1,4 +1,4 @@
-import * as borsh from "@project-serum/borsh"
+import * as borsh from "@coral-xyz/borsh"
 import { PublicKey } from "@solana/web3.js"
 import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants"
 import BN from "bn.js"
@@ -23,7 +23,7 @@ export class Comment {
 
     async publicKey(): Promise<PublicKey> {
         return (
-            await PublicKey.findProgramAddress(
+            PublicKey.findProgramAddressSync(
                 [
                     this.review.toBuffer(),
                     new BN(this.count).toArrayLike(Buffer, "be", 8),
@@ -50,7 +50,7 @@ export class Comment {
     serialize(): Buffer {
         const buffer = Buffer.alloc(1000)
         this.instructionLayout.encode({ ...this, variant: 2 }, buffer)
-        return buffer.slice(0, this.instructionLayout.getSpan(buffer))
+        return buffer.subarray(0, this.instructionLayout.getSpan(buffer))
     }
 
     static deserialize(buffer?: Buffer): Comment | null {

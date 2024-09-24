@@ -1,4 +1,4 @@
-import * as borsh from "@project-serum/borsh"
+import * as borsh from "@coral-xyz/borsh"
 import { PublicKey } from "@solana/web3.js"
 import { MOVIE_REVIEW_PROGRAM_ID } from "../utils/constants"
 
@@ -24,7 +24,7 @@ export class Movie {
     console.log("reviewer:", this.reviewer.toBase58())
     console.log("title:", this.title)
     return (
-      await PublicKey.findProgramAddress(
+      PublicKey.findProgramAddressSync(
         [this.reviewer.toBuffer(), Buffer.from(this.title)],
         new PublicKey(MOVIE_REVIEW_PROGRAM_ID)
       )
@@ -80,7 +80,7 @@ export class Movie {
       { ...this, variant: instruction },
       buffer
     )
-    return buffer.slice(0, this.borshInstructionSchema.getSpan(buffer))
+    return buffer.subarray(0, this.borshInstructionSchema.getSpan(buffer))
   }
 
   static deserialize(buffer?: Buffer): Movie | null {
